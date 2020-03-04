@@ -1,39 +1,54 @@
-# Desafio LessClick de Sele√ß√£o
+# Api de ingressos
+## Laravel Framework vers„o 5.8,pacote de autenticaÁ„o Laravel/Passport vers„o 7.0 e banco de dados MySQL
 
-  Ol√°, queremos convid√°-lo a participar de nosso desafio de sele√ß√£o. Seu trabalho ser√° visto por nosso time e voc√™ receber√° ao final um feedback sobre o que achamos do seu trabalho.
+#### DescriÁ„o:
 
-Sobre a oportunidade
+###### a Api È respons·vel por gerenciar um contexto de venda de ingressos para jogos de futebol, eventos e shows que podem ser requisitados por diferentes clientes em diferentes localidades para diferentes atraÁıes, oferecendo assim um Ûtimo ambiente para gerenciar seu uso e suas demandas.
+##### Par‚metros de entrada: requisiÁıes http no formato JSON. Par‚metros de saÌda : objeto de data no formato JSON
 
-  A vaga √© para desenvolvedor e para isso utilizaremos crit√©rios espec√≠ficos de avalia√ß√£o considerando a qualidade do seu c√≥digo, n√≠veis de coes√£o e coer√™ncia, utiliza√ß√£o de padr√µes de projeto e arquitetura, modelagem do relacionamento com o banco de dados e capacidade de entendimento de regras de neg√≥cio. Se voc√™ for aprovado nesta etapa, ser√° convidado para uma entrevista final com nosso time.
+#### InstruÁıes: 
+1) Dar clone no projeto.
+2) Instalar as dependÍncias: php composer install
+3) Configurar acesso ao banco de dados no arquivo de configuraÁ„o .env e criar o DATABASE api no banco de dados local.
+4) Rodar os comandos para limpar e popular o banco de dados: php artisan migrate:fresh , php artisan db:seed.
+5) Iniciar o serviÁo de autenticaÁ„o do passport : php artisan passport:install.
+6) Iniciar o serviÁo da api : php artisan serve.
+7) Usar o POSTMAN ou qualquer outro  serviÁo de requisiÁıes as API's.
 
-# Desafio T√©cnico
+#### Estrutura:
+    
+    H· no total quatro grupos de rotas, rotas auth, rotas de evento, rotas de cliente e rotas de ingresso.
+    
+#### Rotas Auth: 
+   ###### POST localhost:8000/auth/registrar. Par‚metros: 'name','email','password', 'password_confirmation'. Objetivo: criar um novo registro na tabela clientes com as credenciais informadas nos par‚metros.
+   ###### POST localhost:8000/auth/login. Par‚metros: 'email','password'. Objetivo: usar as credenciais informadas para ter acesso ao token de acesso gerado pelo passport.
+    Caso n„o se queira registrar um cliente prÛprio para usar o serviÁo da API pode-se usar qualquer um dos trÍs usu·rios j· cadastrados no banco de dados: 
+        name: cliente01, email: cliente01@gmail.com , password : cliente123;
+        name: cliente02, email: cliente02@gmail.com , password : cliente123;
+        name: cliente03, email: cliente03@gmail.com , password : cliente123;
+   ###### POST localhost:8000/auth/logout. Par‚metros:'token'. Objetivo: revogar o token informado por par‚metro
+   
+#### Rotas Evento:
+   ###### GET localhost:8000/evento. Par‚metros: nenhum. Objetivo: ter acesso a lista de todos os eventos cadastrados no DATABASE
+   ###### GET localhost:8000/evento-por-id/{id?}. Par‚metros: id(opcional) Objetivo: ter acesso ao evento cadastrado no DATABASE que possui este id
+   ###### POST localhost:8000/novo-evento. Par‚metros:'name', 'descricao', 'categoria_id','data_evento','cidade_id' . Objetivo: salvar um novo evento no DATABASE com os par‚metros informados.
+   ###### PUT localhost:8000/editar-evento. Par‚metros:'name', 'descricao', 'categoria_id','data_evento','cidade_id' . Objetivo: salvar um  evento j· existente no DATABASE com os par‚metros informados.
+   ###### DELETE localhost:8000/deletar-evento Par‚metros: 'id'. Objetivo: deletar o evento de id informado por par‚metro
+   ###### GET localhost:8000/evento-da-cidade/{cidade_id?} Par‚metros: 'cidade_id'. Objetivo: exibir lista de todos os objetos eventos que estejam cadastrados para esta cidade_id.
+   
+  #### Rotas Cliente:
+   ###### GET localhost:8000/cliente. Par‚metros: nenhum. Objetivo: ter acesso a lista de todos os clientes cadastrados no DATABASE
+   ###### GET localhost:8000/cliente-por-id/{id?}. Par‚metros: id(opcional) Objetivo: ter acesso ao cliente cadastrado no DATABASE que possui este id
+   ###### PUT localhost:8000/editar-cliente Par‚metros:'cliente_id', 'name', 'email','password'. Objetivo: salvar um  cliente j· existente no DATABASE com os par‚metros informados.
+   ###### DELETE localhost:8000/deletar-cliente Par‚metros: 'id'. Objetivo: deletar o cliente de id informado por par‚metro
 
-  N√≥s da LessClick trabalhamos com diversos tipos de sistemas para melhor atender os nossos clientes e eles s√£o de fundamental import√¢ncia para o nosso trabalho. Nossa especialidade s√£o sistemas para a venda de ingressos em est√°dios de futebol. Pensamos que nada melhor para um bom sistema que uma api de integra√ß√£o bem constru√≠da. Por isso, precisamos de mais algu√©m no time que seja o cara em API RESTFULL:
+  #### Rotas Ingresso:
+   ###### GET localhost:8000/ingresso. Par‚metros: nenhum. Objetivo: ter acesso a lista de todos os ingressos cadastrados no DATABASE
+   ###### POST localhost:8000/novo-ingresso. Par‚metros:'evento_id','zona_id','tipo_id','preco' Objetivo: cadastrar um novo ingresso no DATABASE
+   ###### PUT localhost:8000/editar-ingresso Par‚metros:'evento_id', 'zona_id', 'tipo_id','preco'. Objetivo: salvar um  ingresso j· existente no DATABASE com os par‚metros informados.
+   ###### DELETE localhost:8000/deletar-ingresso Par‚metros: 'id'. Objetivo: deletar o ingresso de id informado por par‚metro
 
-‚Ä¢ Pr√©-requisitos:
-  * Desenvolver os recursos utilizando o framework Laravel;
-  * Utilizar banco de dados Mysql;
+        
+    
+    
 
-‚Ä¢ O que esperamos como escopo m√≠nimo:
-  * Autentica√ß√£o de Comunica√ß√£o;
-  * CRUD de clientes;
-  * CRUD de eventos;
-  * CRUD de ingressos para eventos;
-  * Consulta de ingressos por eventos, pelo menos duas formas de buscas (categoria, cidade, data, );
-
-‚Ä¢ Regras de neg√≥cio do escopo m√≠nimo:
-  * N√£o podem existir clientes duplicados no banco;
-  * N√£o podem existir eventos duplicados no banco;
-  * N√£o podem existir ingressos duplicados no banco para um mesmo evento;
-
-‚Ä¢ O que ser√° diferencial e contar√° como crit√©rio de desempate:
-  * Elaborar documenta√ß√£o da API no Postman;
-
-‚Ä¢ O que vamos avaliar:
-  * Seu c√≥digo;
-  * Organiza√ß√£o;
-  * Boas pr√°ticas;
-  * Diferenciais;
-
-# A entrega 
-  Ap√≥s a realiza√ß√£o do desafio, voc√™ tera que enviar um pull-request para esse projeto. O registro do pull-request ser√° considerado como o marco de entrega do desafio, ent√£o certifique-se de faz√™-lo at√© o final do prazo. O banco de dados (arquivo .sql) deve vir contido no projeto, bem como qualquer instru√ß√£o de uso do sistema como logins e senhas.
